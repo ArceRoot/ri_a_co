@@ -6,7 +6,7 @@ import asyncio
 import aiohttp
 import datetime
 import os
-import emotes
+from lib import emotes
 
 
 def insert_returns(body):
