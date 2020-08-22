@@ -10,24 +10,20 @@ import emotes
 
 
 def insert_returns(body):
-    # insert return stmt if the last expression is a expression statement
     if isinstance(body[-1], ast.Expr):
         body[-1] = ast.Return(body[-1].value)
         ast.fix_missing_locations(body[-1])
-
-    # for if statements, we insert returns into the body and the orelse
     if isinstance(body[-1], ast.If):
         insert_returns(body[-1].body)
         insert_returns(body[-1].orelse)
-
-    # for with blocks, again we insert returns into the body
     if isinstance(body[-1], ast.With):
         insert_returns(body[-1].body)
 
 class dev(commands.Cog):
     def __init__(self, bot)
         self.bot = bot
-        
+    
+    # Thanks to nitros12
     @commands.command()
     @commands.is_owner()
     async def evaluate(self, ctx, *, cmd):
