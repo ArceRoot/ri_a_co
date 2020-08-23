@@ -13,7 +13,8 @@ modules = [
     "modules.eventhandle",
     "modules.dev",
 #    "modules.support",
-#    "modules.learning"
+#    "modules.learning",
+    "modules.general"
 ]
 
 @bot.event
