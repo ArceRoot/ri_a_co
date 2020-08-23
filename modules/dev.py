@@ -20,11 +20,11 @@ def insert_returns(body):
         insert_returns(body[-1].body)
 
 class dev(commands.Cog):
-    def __init__(self, bot)
+    def __init__(self, bot):
         self.bot = bot
     
     # Thanks to nitros12
-    @commands.command()
+    @commands.command(name="실행")
     @commands.is_owner()
     async def evaluate(self, ctx, *, cmd):
         fn_name = "_eval_expr"

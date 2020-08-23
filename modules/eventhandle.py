@@ -1,0 +1,58 @@
+import discord
+from discord.ext import commands
+from lib import emotes
+import aiohttp
+import sqlite3
+import random
+
+
+class events(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+    
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        code = ""
+        for i in range(6):
+            rd = random.randint(1, 2)
+            a = None
+            if rd == 1:
+                a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+            else:
+                a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+            b = random.choice(a)
+            code += b
+        async with aiohttp.ClientSession() as session:
+            o = sqlite3.connect("lib/riaco.sqlite")
+            c = o.cursor()
+            c.execute("SELECT * FROM bot_config")
+            r = c.fetchall()
+            w = discord.Webhook.from_url(r[0][3], adapter=discord.AsyncWebhookAdapter(session))
+            await w.send(f':no_entry_sign: - 봇 실행 중 오류 발생! `{code}`\n```{error}```', username='리아코_')
+        if isinstance(error, commands.CommandNotFound):
+            return
+        elif isinstance(error, commands.NotOwner):
+            await ctx.send(f"{emotes.fail} {ctx.author.mention} - 이 명령어는 봇 관리자만 사용할 수 있어요.")
+        elif isinstance(error, commands.MissingPermissions):
+            a = ""
+            for p in error.perms:
+                if p != error.perms[len(error.perms) - 1]:
+                    a += f"{p}, "
+                else:
+                    a += f"{p}"
+            await ctx.send(f"{emotes.fail} {ctx.author.mention} - 이 명령어를 실행하실 권한이 없어요. 이 명령어는 아래 권한을 필요로 해요.\n```{a}```")
+        elif isinstance(error, commands.BotMissingPermissions):
+            a = ""
+            for p in error.perms:
+                if p != error.perms[len(error.perms) - 1]:
+                    a += f"{p}, "
+                else:
+                    a += f"{p}"
+            await ctx.send(f"{emotes.fail} {ctx.author.mention} - 봇이 명령어를 처리할 수 없었어요. 아래 권한이 봇에게 주어졌는지 확인해주세요.\n```{a}```")
+        elif isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(f":hourglass_flowing_sand: {ctx.author.mention} - 명령어가 쿨다운 중에 있어요. 앞으로 {round(error.retry_after)}초 후에 다시 시도하실 수 있어요.")
+        else:
+            await ctx.send(f"{emotes.secure} {ctx.author.mention} - 명령어 실행 중 알 수 없는 오류가 발생했어요. `리아코 문의` 명령어로 `{code}` 코드를 전달해주세요.")
+        
+def setup(bot):
+    bot.add_cog(events(bot))
