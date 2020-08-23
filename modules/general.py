@@ -9,5 +9,8 @@ class general(commands.Cog):
         self.bot = bot
     
     @commands.command(name="핑")
-    async def ping(ctx):
-        await ctx.send(f"{self.bot.latency * 1000}ms")
+    async def ping(self, ctx):
+        await ctx.send(f"{round(self.bot.latency * 1000)}ms")
+
+def setup(bot):
+    bot.add_cog(general(bot))
