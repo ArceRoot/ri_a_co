@@ -34,14 +34,14 @@ async def on_ready():
     c.execute("SELECT * FROM bot_config")
     r = c.fetchall()
     status = None
-    activity = discord.Game(r[0][1])
-    if r[0][0] == "온라인":
+    activity = discord.Game(r[0][3])
+    if r[0][2] == "온라인":
         status = discord.Status.online
-    if r[0][0] == "자리비움":
+    if r[0][2] == "자리비움":
         status = discord.Status.idle
-    if r[0][0] == "다른 용무 중":
+    if r[0][2] == "다른 용무 중":
         status = discord.Status.do_not_disturb
-    if r[0][0] == "오프라인":
+    if r[0][2] == "오프라인":
         status = discord.Status.invisible
     await bot.change_presence(status=status, activity=activity, afk=True)
     now = datetime.datetime.now()

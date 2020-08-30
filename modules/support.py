@@ -51,3 +51,6 @@ class support(commands.Cog):
             await user.send(embed=embed)
         except:
             await ctx.send(f"{emotes.fail} {ctx.author.mention} - 해당 유저가 DM을 막아놓은 것 같아요. 전송에 실패했어요.")
+
+def setup(bot):
+    bot.add_cog(support(bot))
