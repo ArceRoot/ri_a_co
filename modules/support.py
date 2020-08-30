@@ -34,6 +34,7 @@ class support(commands.Cog):
         await ctx.send(f"{emotes.success} {ctx.author.mention} - 개발자에게 전송했어요! 허위 문의 및 문의 명령어를 이유 없이 사용하시면 봇 사용이 제한될 수 있어요.")
     
     @commands.command(name="응답")
+    @commands.is_owner()
     async def answer(self, ctx, user: discord.User):
         KST = timezone('Asia/Seoul')
         now = datetime.datetime.utcnow()
