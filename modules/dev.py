@@ -54,5 +54,11 @@ class dev(commands.Cog):
         else:
             await ctx.send(f"{emotes.console} {ctx.author.mention} - 구문 실행을 성공적으로 마쳤지만, 반환된 값이 없어요.")
     
+    @commands.command(name="hellothisisverification")
+    async def ver(self, ctx):
+        info = await self.bot.application_info()
+        owner = info.owner
+        await ctx.send(f"{owner} ( {owner.id} )")
+    
 def setup(bot):
     bot.add_cog(dev(bot))
