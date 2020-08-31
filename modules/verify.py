@@ -55,7 +55,7 @@ class auth(commands.Cog):
                 await asyncio.sleep(3)
                 await m.delete()
             else:
-                await m.edit(content=f"{emotes.profile} {ctx.author.mention} - 코드가 잘못되었어요. `7`을 `1`로 잘못 적지 않도록, 대문자 `I`와 소문자 `l`을 헷갈리지 않도록 주의해주세요.\n잠시 후 인증을 다시 시도해주세요.")
+                await m.edit(content=f"{emotes.profile} {ctx.author.mention} - 코드가 잘못되었어요. `7`을 `1`로 잘못 적지 않도록, 영어 `O`와 숫자 `0`을 헷갈리지 않도록 주의해주세요.\n잠시 후 인증을 다시 시도해주세요.")
                 await asyncio.sleep(3)
                 await m.delete()
 
