@@ -52,8 +52,8 @@ class auth(commands.Cog):
                     await ctx.author.add_roles(role)
                 else:
                     await m.edit(content=f"{emotes.setting} {ctx.author.mention} - 인증 후 지급될 역할이 지정되지 않았어요. 서버 관리자에게 문의해주세요.")
-                    await asyncio.sleep(3)
-                    await m.delete()
+                await asyncio.sleep(3)
+                await m.delete()
             else:
                 await m.edit(content=f"{emotes.profile} {ctx.author.mention} - 코드가 잘못되었어요. `7`을 `1`로 잘못 적지 않도록, 대문자 `I`와 소문자 `l`을 헷갈리지 않도록 주의해주세요.\n잠시 후 인증을 다시 시도해주세요.")
                 await asyncio.sleep(3)
