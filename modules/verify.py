@@ -13,6 +13,7 @@ class auth(commands.Cog):
     @commands.command(name="인증")
     @commands.cooldown(rate=1, per=20, type=commands.BucketType.user)
     async def authenticate(self, ctx):
+        await ctx.message.delete()
         img = ImageCaptcha()
         code = ""
         for i in range(7):
