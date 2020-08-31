@@ -12,6 +12,7 @@ Token = r[0][0]
 o.close()
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("리아코 "), description="아 뭐라고 적지")
 modules = [
+    "modules.verify",
 #    "modules.mod",
 #    "modules.notify",
 #    "modules.set",

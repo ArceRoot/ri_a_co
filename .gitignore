@@ -1,2 +1,4 @@
 __pycache__
 riaco.sqlite
+*.zip
+*.bat
