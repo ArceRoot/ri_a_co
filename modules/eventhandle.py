@@ -51,7 +51,7 @@ class events(commands.Cog):
                 c.execute("SELECT * FROM bot_config")
                 r = c.fetchall()
                 w = discord.Webhook.from_url(r[0][5], adapter=discord.AsyncWebhookAdapter(session))
-            await w.send(f':no_entry_sign: - 봇 실행 중 오류 발생! `{code}`\n```{error}```', username='리아코_')
+                await w.send(f':no_entry_sign: - 봇 실행 중 오류 발생! `{code}`\n```{error}```', username='리아코_')
             await ctx.send(f"{emotes.secure} {ctx.author.mention} - 명령어 실행 중 알 수 없는 오류가 발생했어요. `리아코 문의` 명령어로 `{code}` 코드를 전달해주세요.")
         
 def setup(bot):
