@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import sqlite3
 from lib import emotes
-import captcha
+from captcha.image import ImageCaptcha
 import asyncio
 import random
 
@@ -13,7 +13,7 @@ class auth(commands.Cog):
     @commands.command(name="인증")
     @commands.cooldown(rate=1, per=20, type=commands.BucketType.user)
     async def authenticate(self, ctx):
-        img = captcha.image.ImageCaptcha()
+        img = ImageCaptcha()
         code = ""
         for i in range(7):
             rd = random.randint(1, 3)
