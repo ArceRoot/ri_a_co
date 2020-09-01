@@ -65,6 +65,8 @@ async def on_message(msg):
         rows = c.fetchall()
         if not rows:
             await bot.process_commands(msg)
+        elif ctx.channel.id == 750332023205265538 and msg.content == "리아코 인증":
+            await bot.process_commands(msg)
         else:
             admin = bot.get_user(int(rows[0][1]))
             await msg.channel.send(f"{emotes.secure} {msg.author.mention} - 봇 사용이 차단되셔서 취소되었어요. 이의는 Discord 지원 서버에서 제기하실 수 있어요. https://discord.gg/BSByMCw\n사유 : {rows[0][2]}\n처리한 관리자 : {admin}\n차단된 시각 : {rows[0][3]}")
