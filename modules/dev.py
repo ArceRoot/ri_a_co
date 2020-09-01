@@ -7,7 +7,7 @@ import aiohttp
 import datetime
 import os
 from lib import emotes
-
+from pytz import timezone, utc
 
 def insert_returns(body):
     if isinstance(body[-1], ast.Expr):
@@ -60,5 +60,32 @@ class dev(commands.Cog):
         owner = info.owner
         await ctx.send(f"{owner} ( {owner.id} )")
     
+    @commands.command(name="블랙")
+    @commands.is_owner()
+    async def add_blacklist(self, ctx, user: discord.User):
+        KST = timezone('Asia/Seoul')
+        now = datetime.datetime.utcnow()
+        time = utc.localize(now).astimezone(KST)
+        times = time.strftime("%Y년 %m월 %d일 %H시 %M분 %S초")
+        reason = ""
+        for arg in ctx.message.content.split(" ")[3:]:
+            reason += f"{arg} "
+        o = sqlite3.connect("lib/riaco.sqlite")
+        c = o.cursor()
+        c.execute(f"INSERT INTO blacklist(user, admin, reason, datetime) VALUES({user.id}, {ctx.author.id}, '{reason}', '{times}')")
+        o.commit()
+        o.close()
+        await ctx.send(f"{emotes.success} {ctx.author.mention} - 해당 유저를 봇 명령어 사용 차단 목록에 추가했어요. 더 이상 해당 유저는 명령어를 사용하실 수 없어요.")
+    
+    @commands.command(name="언블랙")
+    @commands.is_owner()
+    async def remove_blacklist(self, ctx, user: discord.User):
+        o = sqlite3.connect("lib/riaco.sqlite")
+        c = o.cursor()
+        c.execute(f"DELETE FROM blacklist WHERE user = {user.id}")
+        o.commit()
+        o.close()
+        await ctx.send(f"{emotes.success} {ctx.author.mention} - 해당 유저의 봇 사용 차단을 취소했어요.")
+
 def setup(bot):
     bot.add_cog(dev(bot))

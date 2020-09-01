@@ -40,7 +40,7 @@ class support(commands.Cog):
         now = datetime.datetime.utcnow()
         time = utc.localize(now).astimezone(KST)
         content = ""
-        for arg in ctx.message.content.split(" ")[2:]:
+        for arg in ctx.message.content.split(" ")[3:]:
             content += f"{arg} "
         embed = discord.Embed(title="개발자가 답변을 완료했어요!", color=0x95E1F4)
         embed.add_field(name="답변의 내용", value=content)
@@ -49,6 +49,7 @@ class support(commands.Cog):
         embed.set_footer(text="원하신다면 리아코 문의 명령어로 계속해서 문의하실 수 있어요!")
         try:
             await user.send(embed=embed)
+            await ctx.message.add_reacion("<:cs_yes:659355468715786262>")
         except:
             await ctx.send(f"{emotes.fail} {ctx.author.mention} - 해당 유저가 DM을 막아놓은 것 같아요. 전송에 실패했어요.")
 
