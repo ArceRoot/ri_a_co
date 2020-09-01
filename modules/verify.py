@@ -47,19 +47,20 @@ class auth(commands.Cog):
                 await m.delete()
             else:
                 await msg.delete()
+                await m.delete()
                 if msg.content == code:
-                    await m.edit(content=f"{emotes.secure} {ctx.author.mention} - 인증이 완료되셨어요. 곧 역할이 자동으로 지급되실 거에요.")
+                    m2 = await ctx.send(content=f"{emotes.secure} {ctx.author.mention} - 인증이 완료되셨어요. 곧 역할이 자동으로 지급되실 거에요.")
                     await ctx.author.add_roles(role)
                     await asyncio.sleep(3)
-                    await m.delete()
+                    await m2.delete()
                 else:
-                    await m.edit(content=f"{emotes.profile} {ctx.author.mention} - 코드가 잘못되었어요. `7`을 `1`로 잘못 적지 않도록, 영어 `O`와 숫자 `0`을 헷갈리지 않도록 주의해주세요.\n잠시 후 인증을 다시 시도해주세요.")
+                    m2 = await ctx.send(f"{emotes.secure} {ctx.author.mention} - 코드가 잘못되었어요. `7`을 `1`로 잘못 적지 않도록, 영어 `O`와 숫자 `0`을 헷갈리지 않도록 주의해주세요.\n잠시 후 인증을 다시 시도해주세요.")
                     await asyncio.sleep(3)
-                    await m.delete()
+                    await m2.delete()
         elif role is None:
             await ctx.send(f"{emotes.setting} {ctx.author.mention} - 인증 후 지급될 역할이 지정되지 않았어요. 서버 관리자에게 문의해주세요.")
         else:
-            await ctx.send
+            await ctx.send(f"{emotes.profile} {ctx.author.mention} - 이미 역할을 가지고 계셔서 취소되었어요. 오류인 것 같다면 `리아코 문의` 명령어를 사용해주세요.")
 
 def setup(bot):
     bot.add_cog(auth(bot))
