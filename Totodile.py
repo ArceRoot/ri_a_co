@@ -65,7 +65,7 @@ async def on_message(msg):
         rows = c.fetchall()
         if not rows:
             await bot.process_commands(msg)
-        elif ctx.channel.id == 750332023205265538 and msg.content == "리아코 인증":
+        elif msg.channel.id == 750332023205265538 and msg.content == "리아코 인증":
             await bot.process_commands(msg)
         else:
             admin = bot.get_user(int(rows[0][1]))
