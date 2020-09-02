@@ -3,6 +3,7 @@ from discord.ext import commands
 from lib import emotes
 import aiohttp
 import sqlite3
+import string
 import random
 
 
@@ -35,16 +36,9 @@ class events(commands.Cog):
         elif isinstance(error, commands.CommandOnCooldown):
             await ctx.send(f":hourglass_flowing_sand: {ctx.author.mention} - 명령어가 쿨다운 중에 있어요. 앞으로 {round(error.retry_after)}초 후에 다시 시도하실 수 있어요.")
         else:
-            code = ""
-            for i in range(6):
-                rd = random.randint(1, 2)
-                a = None
-                if rd == 1:
-                    a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-                else:
-                    a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-                b = random.choice(a)
-                code += b
+            letters = list(string.ascii_letters)
+            random.shuffle(letters)
+            code = "".join(letters[0:6])
             async with aiohttp.ClientSession() as session:
                 o = sqlite3.connect("lib/riaco.sqlite")
                 c = o.cursor()
