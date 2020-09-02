@@ -36,10 +36,9 @@ class events(commands.Cog):
         elif isinstance(error, commands.CommandOnCooldown):
             await ctx.send(f":hourglass_flowing_sand: {ctx.author.mention} - 명령어가 쿨다운 중에 있어요. 앞으로 {round(error.retry_after)}초 후에 다시 시도하실 수 있어요.")
         else:
-            code = ""
-            for i in range(6):
-                b = random.choice(string.ascii_letters)
-                code += b
+            letters = list(string.ascii_letters)
+            random.shuffle(letters)
+            code = "".join(letters[0:6])
             async with aiohttp.ClientSession() as session:
                 o = sqlite3.connect("lib/riaco.sqlite")
                 c = o.cursor()
