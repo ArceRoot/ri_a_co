@@ -3,6 +3,7 @@ from discord.ext import commands
 from lib import emotes
 import aiohttp
 import sqlite3
+import string
 import random
 
 
@@ -37,13 +38,7 @@ class events(commands.Cog):
         else:
             code = ""
             for i in range(6):
-                rd = random.randint(1, 2)
-                a = None
-                if rd == 1:
-                    a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-                else:
-                    a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-                b = random.choice(a)
+                b = random.choice(string.ascii_letters)
                 code += b
             async with aiohttp.ClientSession() as session:
                 o = sqlite3.connect("lib/riaco.sqlite")
