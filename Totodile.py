@@ -58,14 +58,14 @@ async def on_message(msg):
     if msg.channel.type == discord.ChannelType.private:
         return
 
-    if msg.content.startswith("리아코 "):
+    if msg.content.startswith("리아코 ") or msg.content.startswith(f"<@{bot.user.id}> ") or msg.content.startswith(f"<@!{bot.user.id}> "):
         o = sqlite3.connect('lib/riaco.sqlite')
         c = o.cursor()
         c.execute(f"SELECT * FROM blacklist WHERE user = {msg.author.id}")
         rows = c.fetchall()
         if not rows:
             await bot.process_commands(msg)
-        elif msg.channel.id == 750332023205265538 and msg.content == "리아코 인증":
+        elif msg.channel.id == 750332023205265538 and msg.content.split(" ")[1] == "인증":
             await bot.process_commands(msg)
         else:
             admin = bot.get_user(int(rows[0][1]))
