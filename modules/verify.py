@@ -58,7 +58,7 @@ class auth(commands.Cog):
         elif role is None:
             await ctx.send(f"{emotes.setting} {ctx.author.mention} - 인증 후 지급될 역할이 지정되지 않았거나, 잘못되었어요. 서버 관리자에게 문의해주세요.")
         else:
-            await ctx.send(f"{emotes.profile} {ctx.author.mention} - 이미 역할을 가지고 계셔서 취소되었어요. 오류인 것 같다면 `리아코 문의` 명령어를 사용해주세요.")
+            await ctx.send(f"{emotes.profile} {ctx.author.mention} - 이미 역할을 가지고 계셔서 취소되었어요. 역할이 없는데 이 문구가 뜬다면 `리아코 문의` 명령어를 사용해 문의해주세요.")
 
 def setup(bot):
     bot.add_cog(auth(bot))
