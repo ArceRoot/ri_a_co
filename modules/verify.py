@@ -27,8 +27,6 @@ class auth(commands.Cog):
                 a = ""
                 if rd == 1:
                     a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-                #elif rd == 2:
-                #    a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
                 else:
                     a = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
                 b = random.choice(a)
@@ -58,7 +56,7 @@ class auth(commands.Cog):
                     await asyncio.sleep(3)
                     await m2.delete()
         elif role is None:
-            await ctx.send(f"{emotes.setting} {ctx.author.mention} - 인증 후 지급될 역할이 지정되지 않았어요. 서버 관리자에게 문의해주세요.")
+            await ctx.send(f"{emotes.setting} {ctx.author.mention} - 인증 후 지급될 역할이 지정되지 않았거나, 잘못되었어요. 서버 관리자에게 문의해주세요.")
         else:
             await ctx.send(f"{emotes.profile} {ctx.author.mention} - 이미 역할을 가지고 계셔서 취소되었어요. 오류인 것 같다면 `리아코 문의` 명령어를 사용해주세요.")
 
