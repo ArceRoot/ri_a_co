@@ -94,5 +94,6 @@ class Moderation(commands.Cog):
         else:
             deleted = await ctx.channel.purge(limit=number)
             await ctx.send(f"{emotes.trash} {ctx.author.mention} - **{len(deleted)}**개의 메시지를 삭제했어요.", delete_after=5)
+            
 def setup(bot):
     bot.add_cog(Moderation(bot))

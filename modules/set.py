@@ -50,3 +50,6 @@ class settings(commands.Cog):
                         o.close()
                 else:
                     await msg.edit(content=f"{emotes.fail} {ctx.author.mention} - 공지 채널 설정 변경이 취소되었어요.")
+
+def setup(bot):
+    bot.add_cog(settings(bot))
