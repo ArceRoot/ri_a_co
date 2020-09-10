@@ -60,6 +60,51 @@ class dev(commands.Cog):
         owner = info.owner
         await ctx.send(f"{owner} ( {owner.id} )")
     
+    @commands.command(name="상메", aliases=['상태', '상태메시지']) # 리오르 상메 변경 코드에서 가져옴.
+    @commands.is_owner()
+    async def presence(self, ctx, *args):
+        conn = sqlite3.connect('lib/riaco.sqlite')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM bot")
+        rows = cur.fetchall()
+        if args[0] == "온라인":
+            st = "온라인 / Online"
+            status = discord.Status.online
+            local = args[1:]
+        elif args[0] == "자리비움":
+            st = "자리비움 / Idle"
+            status = discord.Status.idle
+            local = args[1:]
+        elif args[0] == "다른" and args[1] == "용무" and args[2] == "중":
+            st = "다른 용무 중 / Do not disturb"
+            status = discord.Status.dnd
+            local = args[3:]
+        elif args[0] == "오프라인":
+            st = "오프라인 / Offline"
+            status = discord.Status.offline
+            local = args[1:]
+        else:
+            await ctx.send(f'{ctx.author.mention} - 그런 상태 없다.')
+            return
+        text = ""
+        for arg in local:
+            text += f"{arg} "
+        msg = await ctx.send(f":question: {ctx.author.mention} - 봇의 상태를 이렇게 변경할거에요. 이게 맞나요?\n상태 : {rows[0][2]} -> {st}\n메시지 : {rows[0][3]} -> {text}")
+        await msg.add_reaction("<:cs_yes:659355468715786262>")
+        def check(reaction, user):
+            return reaction.message.channel == ctx.channel and user == ctx.author and str(reaction.emoji) == "<:cs_yes:659355468715786262>"
+        try:
+            reaction, user = await self.bot.wait_for('reaction_add', timeout=30, check=check)
+        except asyncio.TimeoutError:
+            await msg.clear_reactions()
+        else:
+            await msg.clear_reactions()
+            await self.bot.change_presence(status=status, activity=discord.Game(text))
+            cur.execute(f"""UPDATE bot SET status = "{st}", activity = "{text}" """)
+            conn.commit()
+            conn.close()
+            await msg.edit(content=f"{emotes.success} {ctx.author.mention} - 상태 메시지 변경을 완료했어요!")
+    
     @commands.command(name="블랙")
     @commands.is_owner()
     async def add_blacklist(self, ctx, user: discord.User):
