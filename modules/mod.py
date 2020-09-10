@@ -94,6 +94,18 @@ class Moderation(commands.Cog):
         else:
             deleted = await ctx.channel.purge(limit=number)
             await ctx.send(f"{emotes.trash} {ctx.author.mention} - **{len(deleted)}**개의 메시지를 삭제했어요.", delete_after=5)
+    
+    @commands.command(name="슬로우", aliases=['딜레이', "슬로우모드"])
+    @commands.has_permissions(manage_channels=True)
+    @commands.bot_has_permissions(manage_channels=True)
+    async def slowmode(self, ctx, number: typing.Optional[int] = 0):
+        if number == 0 or number > 21600:
+            await ctx.send(f"{emotes.console} {ctx.author.mention} - 채널 메시지 딜레이는 `1 - 21600`초 사이 혹은 `끄기`로만 설정하실 수 있어요!")
+        elif number == 0 and ctx.message.content[2] == "끄기":
+            await ctx.channel.edit(slowmode_delay=0)
+            await ctx.send(f":stopwatch: {ctx.author.mention} - <#{ctx.channel.id}> 채널의 메시지 딜레이를 해제했어요.")
+        else:
+            await ctx.send(f":stopwatch: {ctx.author.mention} - <#{ctx.channel.id}> 채널을 *느 리 게  만 들 었 어 요 .*\n`채널 관리` 및 `메시지 관리` 권한을 가지고 있지 않은 유저는 {number}초에 한 번만 메시지를 보낼 수 있어요.\n \n참고 : `리아코 딜레이 끄기` 명령어로 채널 메시지 딜레이를 해제할 수 있어요.")
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
