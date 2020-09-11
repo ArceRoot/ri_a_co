@@ -47,12 +47,15 @@ class dev(commands.Cog):
             'aiohttp': aiohttp,
             'os': os
         }
-        exec(compile(parsed, filename="<ast>", mode="exec"), env)
-        result = (await eval(f"{fn_name}()", env))
-        if result is not None:
-            await ctx.send(f"{emotes.console} {ctx.author.mention} - 구문 실행을 성공적으로 마쳤어요.\n```{result}```")
-        else:
-            await ctx.send(f"{emotes.console} {ctx.author.mention} - 구문 실행을 성공적으로 마쳤지만, 반환된 값이 없어요.")
+        try:
+            exec(compile(parsed, filename="<ast>", mode="exec"), env)
+            result = (await eval(f"{fn_name}()", env))
+            if result is not None:
+                await ctx.send(f"{emotes.console} {ctx.author.mention} - 구문 실행을 성공적으로 마쳤어요.\n```{result}```")
+            else:
+                await ctx.send(f"{emotes.console} {ctx.author.mention} - 구문 실행을 성공적으로 마쳤지만, 반환된 값이 없어요.")
+        except Exception as error:
+            await ctx.send(f"{emotes.secure} {ctx.author.mention} - 구문 실행 실패;\n```{error}```")
     
     @commands.command(name="hellothisisverification")
     async def ver(self, ctx):
@@ -65,7 +68,7 @@ class dev(commands.Cog):
     async def presence(self, ctx, *args):
         conn = sqlite3.connect('lib/riaco.sqlite')
         cur = conn.cursor()
-        cur.execute("SELECT * FROM bot")
+        cur.execute("SELECT * FROM bot_config")
         rows = cur.fetchall()
         if args[0] == "온라인":
             st = "온라인 / Online"
@@ -100,7 +103,7 @@ class dev(commands.Cog):
         else:
             await msg.clear_reactions()
             await self.bot.change_presence(status=status, activity=discord.Game(text))
-            cur.execute(f"""UPDATE bot SET status = "{st}", activity = "{text}" """)
+            cur.execute(f"""UPDATE bot_config SET status = "{st}", activity = "{text}" """)
             conn.commit()
             conn.close()
             await msg.edit(content=f"{emotes.success} {ctx.author.mention} - 상태 메시지 변경을 완료했어요!")
